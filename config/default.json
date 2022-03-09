@@ -1,4 +1,5 @@
 
 {
-  "mogoUri": "mongodb+srv://safwen:safwen123@cluster0-eyyjv.mongodb.net/restapi?retryWrites=true&w=majority"
+  "mogoUri": "mongodb+srv://safwen:safwen123@cluster0-eyyjv.mongodb.net/restapi?retryWrites=true&w=majority",
+  "secret":"safwen"
 }
