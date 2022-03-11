@@ -8,3 +8,5 @@ export const REMOVE_ALERT = 'REMOVE_ALERT'
 
 export const LOAD_USER = 'LOAD_USER'
 export const FAIL_USER = 'FAIL_USER'
+
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
