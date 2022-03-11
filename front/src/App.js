@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ListProfile from './components/profile/ListProfile'
 import Login from './components/auth/Login'
@@ -7,13 +7,26 @@ import Header from './components/layout/Header'
 import ProfileUser from './components/profile/ProfileUser'
 import AddEducation from './components/Education/AddEducation'
 import AddExperience from './components/Experience/AddExperience'
+import Alert from './components/layout/Alert'
 import CreateProfile from './components/profile/CreateProfile'
+import { LoadUser } from './action/authAction'
+import setAuthToken from './util/setAuthToken'
 
+import store from './store'
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 const App = () => {
+  useEffect(() => {
+    store.dispatch(LoadUser())
+  }, [])
+
   return (
     <Router>
+      <Header />
+      <Alert />
       <div className="">
-        <Header />
         <Routes>
           <Route excat path="/" element={<ListProfile />} />
           <Route path="/login" element={<Login />} />

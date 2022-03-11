@@ -20,7 +20,7 @@ const Register = ({ isAuth, RegisterUser }) => {
     console.log(FormaData)
     RegisterUser({ name, email, password })
   }
-  console.log(isAuth)
+
   if (isAuth) {
     navigate('/profile')
   }
