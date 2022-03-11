@@ -1,7 +1,12 @@
-import { LOGIN_USER, REGISTER_USER, ERROR_AUTH } from '../action/types'
+import {
+  LOGIN_USER,
+  REGISTER_USER,
+  ERROR_LOGIN,
+  ERROR_REGISTER,
+} from '../action/types'
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem('token'),
   isAuth: false,
   loading: true,
   user: null,
@@ -13,9 +18,22 @@ export default function (state = initialState, action) {
   switch (type) {
     case LOGIN_USER:
     case REGISTER_USER:
-      return {}
-    case ERROR_AUTH:
-      return {}
+      localStorage.setItem('token', payload.token)
+      return {
+        ...state,
+        ...payload,
+        loading: false,
+        isAuth: true,
+      }
+    case ERROR_LOGIN:
+    case ERROR_REGISTER:
+      localStorage.removeItem('token')
+      return {
+        ...state,
+        token: null,
+        loading: false,
+        isAuth: false,
+      }
     default:
       return state
   }
