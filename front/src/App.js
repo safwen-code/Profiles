@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import ListProfile from './components/profile/ListProfile'
+import Login from './components/auth/Login'
+import Register from './components/auth/Register'
+import Header from './components/layout/Header'
+import ProfileUser from './components/profile/ProfileUser'
+import AddEducation from './components/Education/AddEducation'
+import AddExperience from './components/Experience/AddExperience'
+import CreateProfile from './components/profile/CreateProfile'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div className="">
+        <Header />
+        <Routes>
+          <Route excat path="/" element={<ListProfile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* private Route */}
+          {/* userProfile  */}
+          <Route path="/profile" element={<ProfileUser />} />
+          {/* addeducation addExperience create profile*/}
+          <Route path="/addEducation" element={<AddEducation />} />
+          <Route path="/addExperience" element={<AddExperience />} />
+          <Route path="/createProfile" element={<CreateProfile />} />
+        </Routes>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
