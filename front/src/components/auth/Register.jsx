@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { RegisterUser } from '../../action/authAction'
 
-const Register = () => {
+const Register = ({ isAuth, RegisterUser }) => {
   const [FormaData, setFormaData] = useState({
     email: '',
     password: '',
     name: '',
-    description: '',
   })
-  const { name, email, password, description } = FormaData
-  let navigate = useNavigate()
+
+  const { name, email, password } = FormaData
   const onchangeHundler = (e) => {
     setFormaData({ ...FormaData, [e.target.name]: e.target.value })
   }
+
+  let navigate = useNavigate()
   const onsubmitHundler = () => {
     console.log(FormaData)
+    RegisterUser({ name, email, password })
+  }
+  console.log(isAuth)
+  if (isAuth) {
     navigate('/profile')
   }
   return (
@@ -53,17 +60,7 @@ const Register = () => {
         />
         <label for="floatingInput">Name </label>
       </div>
-      <div className="form-floating mb-3">
-        <input
-          type="text"
-          name="description"
-          value={description}
-          className="form-control"
-          placeholder="your description please"
-          onChange={onchangeHundler}
-        />
-        <label for="floatingInput">description </label>
-      </div>
+
       <button className="btn btn-primary" onClick={onsubmitHundler}>
         Sing In
       </button>
@@ -71,4 +68,8 @@ const Register = () => {
   )
 }
 
-export default Register
+const mapStateToProps = (state) => ({
+  isAuth: state.auth.isAuth,
+})
+
+export default connect(mapStateToProps, { RegisterUser })(Register)

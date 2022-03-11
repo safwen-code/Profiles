@@ -1,22 +1,28 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { LoginUser } from '../../action/authAction'
+import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
+const Login = ({ auth: { loading, isAuth }, LoginUser }) => {
   const [FormData, setFormData] = useState({
     email: '',
     password: '',
-    checked: false,
   })
-  const { email, password, checked } = FormData
+  const { email, password } = FormData
   const onchangeHundler = (e) => {
     setFormData({
       ...FormData,
-      checked: !checked,
       [e.target.name]: e.target.value,
     })
   }
+
+  let navigate = useNavigate()
   const onsubmitHundler = (e) => {
     e.preventDefault()
-    console.log(FormData)
+    LoginUser(email, password)
+  }
+  if (isAuth) {
+    navigate('/')
   }
   return (
     <div className="container border border-dark mt-3">
@@ -45,12 +51,7 @@ const Login = () => {
       </div>
       <div className="checkbox mb-3">
         <label>
-          <input
-            type="checkbox"
-            name="checked"
-            value={checked}
-            onChange={onchangeHundler}
-          />
+          <input type="checkbox" name="checked" />
           "Remember me"
         </label>
       </div>
@@ -61,4 +62,7 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+})
+export default connect(mapStateToProps, { LoginUser })(Login)
