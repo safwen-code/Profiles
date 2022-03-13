@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Logout } from '../../action/authAction'
 
-const Header = ({ auth: { loading, isAuth }, Logout }) => {
+const Header = ({ auth: { loading, isAuth, user }, Logout }) => {
   const guestUser = (
     <Fragment>
       <li class="nav-item">
@@ -31,37 +31,41 @@ const Header = ({ auth: { loading, isAuth }, Logout }) => {
           profile
         </Link>
       </li>
+
       <li className="na-item">
         <Link className="nav-link" aria-current="page" to="/" onClick={Logout}>
+          {user !== null && user.name}
           logOut
         </Link>
       </li>
     </Fragment>
   )
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <Link class="navbar-brand" to="/">
-          Navbar
-        </Link>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            {!loading && <Fragment>{isAuth ? authUser : guestUser}</Fragment>}
-          </ul>
+    <Fragment>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <Link class="navbar-brand" to="/">
+            Navbar
+          </Link>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              {!loading && <Fragment>{isAuth ? authUser : guestUser}</Fragment>}
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </Fragment>
   )
 }
 
