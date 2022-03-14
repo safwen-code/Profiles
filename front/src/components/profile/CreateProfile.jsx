@@ -1,7 +1,12 @@
 import React, { Fragment, useState } from 'react'
+import { connect } from 'react-redux'
+import { createProfile } from '../../action/profile'
+import { useNavigate } from 'react-router-dom'
+import { withRouter } from '../../Routes/withRouter'
 
 const CreateProfile = () => {
-  const [FormData, setFormData] = useState({
+  const [displaySocialInput, ToggelSocialField] = useState(false)
+  const [formData, setFormData] = useState({
     company: '',
     website: '',
     bio: '',
@@ -9,11 +14,8 @@ const CreateProfile = () => {
     githubusername: '',
     skills: '',
     facebook: '',
-    linkeIn: '',
+    linkedIn: '',
   })
-
-  const [displaySocial, setdisplaySocial] = useState(false)
-
   const {
     company,
     website,
@@ -22,22 +24,25 @@ const CreateProfile = () => {
     githubusername,
     skills,
     facebook,
-    linkeIn,
-  } = FormData
-
-  const onchangeHundler = (e) => {
-    setFormData({ ...FormData, [e.target.name]: e.target.value })
+    linkedIn,
+  } = formData
+  const onChangeValue = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
-
-  const onsubmitHundler = (e) => {
+  const onSubmitForm = (e) => {
     e.preventDefault()
-
-    console.log(FormData)
+    console.log(formData)
   }
+
+  const display = (e) => {
+    e.preventDefault()
+    ToggelSocialField(!displaySocialInput)
+  }
+
   return (
     <div className="container border border-dark mt-3">
       <h3 className="text-center fst-normal">create profile</h3>
-      <form className="row g-3 " onSubmit={onsubmitHundler}>
+      <form className="row g-3 ">
         <div class="mb-3 row mt-3">
           <label for="staticEmail" class="col-sm-2 col-form-label">
             select a profile status
@@ -48,9 +53,9 @@ const CreateProfile = () => {
               aria-label=".form-select-lg example"
               name="status"
               value={status}
-              onChange={onchangeHundler}
+              onChange={(e) => onChangeValue(e)}
             >
-              <option selected>Open this select menu</option>
+              <option value>Open this select menu</option>
               <option value="developper">developper</option>
               <option value="senior developper">senior developper</option>
               <option value="junior developper">junior developper</option>
@@ -68,7 +73,7 @@ const CreateProfile = () => {
               id="inputPassword"
               name="company"
               value={company}
-              onChange={onchangeHundler}
+              onChange={(e) => onChangeValue(e)}
             />
           </div>
         </div>
@@ -83,7 +88,7 @@ const CreateProfile = () => {
               id="inputPassword"
               name="website"
               value={website}
-              onChange={onchangeHundler}
+              onChange={(e) => onChangeValue(e)}
             />
           </div>
         </div>
@@ -98,7 +103,7 @@ const CreateProfile = () => {
               id="inputPassword"
               name="skills"
               value={skills}
-              onChange={onchangeHundler}
+              onChange={(e) => onChangeValue(e)}
             />
           </div>
         </div>
@@ -113,7 +118,7 @@ const CreateProfile = () => {
               id="inputPassword"
               name="githubusername"
               value={githubusername}
-              onChange={onchangeHundler}
+              onChange={(e) => onChangeValue(e)}
             />
           </div>
         </div>
@@ -129,20 +134,20 @@ const CreateProfile = () => {
               id="inputPassword"
               name="bio"
               value={bio}
-              onChange={onchangeHundler}
+              onChange={(e) => onChangeValue(e)}
             />
           </div>
         </div>
         <div>
           <button
             className="btn btn-outline-primary mt-1 mb-2"
-            onClick={(e) => setdisplaySocial(!displaySocial)}
+            onClick={(e) => display(e)}
           >
             Add social network
           </button>
         </div>
 
-        {displaySocial && (
+        {displaySocialInput ? (
           <Fragment>
             <div class="mb-3 row">
               <label for="inputPassword" class="col-sm-2 col-form-label">
@@ -155,7 +160,7 @@ const CreateProfile = () => {
                   id="inputPassword"
                   name="facebook"
                   value={facebook}
-                  onChange={onchangeHundler}
+                  onChange={(e) => onChangeValue(e)}
                 />
               </div>
             </div>
@@ -169,16 +174,24 @@ const CreateProfile = () => {
                   class="form-control"
                   id="inputPassword"
                   name="linkeIn"
-                  value={linkeIn}
-                  onChange={onchangeHundler}
+                  value={linkedIn}
+                  onChange={(e) => onChangeValue(e)}
                 />
               </div>
             </div>
           </Fragment>
+        ) : (
+          <h1>hello</h1>
         )}
 
         <div>
-          <button className="btn btn-primary ms-4 mb-3"> submit</button>
+          <button
+            className="btn btn-primary ms-4 mb-3"
+            onClick={(e) => onSubmitForm(e)}
+          >
+            {' '}
+            submit
+          </button>
           <button className="btn btn-secondary ms-4 mb-3"> go back</button>
         </div>
       </form>
@@ -186,4 +199,4 @@ const CreateProfile = () => {
   )
 }
 
-export default CreateProfile
+export default withRouter(CreateProfile)
