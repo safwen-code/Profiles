@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Education from '../Education/Education'
 import Experience from '../Experience/Experience'
 import { connect } from 'react-redux'
 import { LoadUser } from '../../action/authAction'
+import { getCurrentProfile } from '../../action/profile'
+import ProfileUserPage from './ProfileUserPage'
 import { Link } from 'react-router-dom'
 
-const ProfileUser = ({ user }) => {
+const ProfileUser = ({ user, getCurrentProfile, profile }) => {
+  useEffect(() => {
+    getCurrentProfile()
+  }, [getCurrentProfile])
+
   const { name, email } = user
 
   return (
@@ -28,6 +34,8 @@ const ProfileUser = ({ user }) => {
           </p>
         </div>
       </div>
+      {profile != null && <ProfileUserPage profile={profile} />}
+
       <div className="row mb-2">
         <Education />
         <Experience />
@@ -38,6 +46,9 @@ const ProfileUser = ({ user }) => {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  profile: state.profile.profile,
 })
 
-export default connect(mapStateToProps, { LoadUser })(ProfileUser)
+export default connect(mapStateToProps, { LoadUser, getCurrentProfile })(
+  ProfileUser,
+)

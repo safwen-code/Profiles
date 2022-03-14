@@ -4,7 +4,7 @@ import { createProfile } from '../../action/profile'
 import { useNavigate } from 'react-router-dom'
 import { withRouter } from '../../Routes/withRouter'
 
-const CreateProfile = () => {
+const CreateProfile = ({ createProfile }) => {
   const [displaySocialInput, ToggelSocialField] = useState(false)
   const [formData, setFormData] = useState({
     company: '',
@@ -29,9 +29,11 @@ const CreateProfile = () => {
   const onChangeValue = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
+  let navigate = useNavigate()
   const onSubmitForm = (e) => {
     e.preventDefault()
     console.log(formData)
+    createProfile(formData, navigate)
   }
 
   const display = (e) => {
@@ -173,7 +175,7 @@ const CreateProfile = () => {
                   type="text"
                   class="form-control"
                   id="inputPassword"
-                  name="linkeIn"
+                  name="linkedIn"
                   value={linkedIn}
                   onChange={(e) => onChangeValue(e)}
                 />
@@ -199,4 +201,4 @@ const CreateProfile = () => {
   )
 }
 
-export default withRouter(CreateProfile)
+export default connect(null, { createProfile })(withRouter(CreateProfile))
