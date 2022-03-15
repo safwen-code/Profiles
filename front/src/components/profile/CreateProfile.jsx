@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { createProfile } from '../../action/profile'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +15,9 @@ const CreateProfile = ({ createProfile }) => {
     skills: '',
     facebook: '',
     linkedIn: '',
+    imageUrl: '',
   })
+
   const {
     company,
     website,
@@ -25,15 +27,19 @@ const CreateProfile = ({ createProfile }) => {
     skills,
     facebook,
     linkedIn,
+    imageUrl,
   } = formData
-  const onChangeValue = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+
   let navigate = useNavigate()
+
+  const forma = useRef(null)
+
   const onSubmitForm = (e) => {
     e.preventDefault()
-    console.log(formData)
-    createProfile(formData, navigate)
+    const data = new FormData(forma.current)
+    console.log(data)
+
+    createProfile(data, navigate)
   }
 
   const display = (e) => {
@@ -44,7 +50,7 @@ const CreateProfile = ({ createProfile }) => {
   return (
     <div className="container border border-dark mt-3">
       <h3 className="text-center fst-normal">create profile</h3>
-      <form className="row g-3 ">
+      <form className="row g-3 " ref={forma}>
         <div class="mb-3 row mt-3">
           <label for="staticEmail" class="col-sm-2 col-form-label">
             select a profile status
@@ -55,7 +61,9 @@ const CreateProfile = ({ createProfile }) => {
               aria-label=".form-select-lg example"
               name="status"
               value={status}
-              onChange={(e) => onChangeValue(e)}
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
             >
               <option value>Open this select menu</option>
               <option value="developper">developper</option>
@@ -75,7 +83,9 @@ const CreateProfile = ({ createProfile }) => {
               id="inputPassword"
               name="company"
               value={company}
-              onChange={(e) => onChangeValue(e)}
+              onChange={(e) =>
+                setFormData({ ...formData, company: e.target.value })
+              }
             />
           </div>
         </div>
@@ -90,7 +100,9 @@ const CreateProfile = ({ createProfile }) => {
               id="inputPassword"
               name="website"
               value={website}
-              onChange={(e) => onChangeValue(e)}
+              onChange={(e) =>
+                setFormData({ ...formData, website: e.target.value })
+              }
             />
           </div>
         </div>
@@ -105,7 +117,9 @@ const CreateProfile = ({ createProfile }) => {
               id="inputPassword"
               name="skills"
               value={skills}
-              onChange={(e) => onChangeValue(e)}
+              onChange={(e) =>
+                setFormData({ ...formData, skills: e.target.value })
+              }
             />
           </div>
         </div>
@@ -120,7 +134,9 @@ const CreateProfile = ({ createProfile }) => {
               id="inputPassword"
               name="githubusername"
               value={githubusername}
-              onChange={(e) => onChangeValue(e)}
+              onChange={(e) =>
+                setFormData({ ...formData, githubusername: e.target.value })
+              }
             />
           </div>
         </div>
@@ -136,10 +152,31 @@ const CreateProfile = ({ createProfile }) => {
               id="inputPassword"
               name="bio"
               value={bio}
-              onChange={(e) => onChangeValue(e)}
+              onChange={(e) =>
+                setFormData({ ...formData, bio: e.target.value })
+              }
             />
           </div>
         </div>
+
+        <div class="mb-3 row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">
+            image
+          </label>
+          <div class="col-sm-10">
+            <input
+              type="file"
+              class="form-control"
+              id="inputPassword"
+              name="imageUrl"
+              defaultValue={imageUrl}
+              onChange={(e) =>
+                setFormData({ ...formData, imageUrl: e.target.files[0] })
+              }
+            />
+          </div>
+        </div>
+
         <div>
           <button
             className="btn btn-outline-primary mt-1 mb-2"
@@ -162,7 +199,9 @@ const CreateProfile = ({ createProfile }) => {
                   id="inputPassword"
                   name="facebook"
                   value={facebook}
-                  onChange={(e) => onChangeValue(e)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, facebook: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -177,7 +216,9 @@ const CreateProfile = ({ createProfile }) => {
                   id="inputPassword"
                   name="linkedIn"
                   value={linkedIn}
-                  onChange={(e) => onChangeValue(e)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, linkedIn: e.target.value })
+                  }
                 />
               </div>
             </div>
