@@ -21,9 +21,15 @@ export const getCurrentProfile = () => async (dispatch) => {
       type: PROFILE_USER,
       payload: res.data,
     })
-  } catch (error) {
-    //dispatch error
-    console.error('error')
+  } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
   }
 }
 
@@ -59,6 +65,26 @@ export const createProfile = (FormData, navigate, edite = false) => async (
   }
 }
 
+//get all Profile
+export const getProfiles = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/profile/')
+    dispatch({
+      type: GET_PROFIELS,
+      payload: res.data,
+    })
+  } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
+
 //add Experience
 export const Addexperience = () => async (dispatch) => {}
 
@@ -70,9 +96,6 @@ export const deleteExperience = () => async (dispatch) => {}
 
 //delete Profile
 export const deleteProfile = () => async (dispatch) => {}
-
-//get all Profile
-export const getProfiles = () => async (dispatch) => {}
 
 //get profile by userID
 export const getProfileByUserID = () => async (dispatch) => {}
