@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { AiOutlineCheck } from 'react-icons/ai'
+
 const ProfileItem = ({ profile: { imageUrl, user, skills, status, _id } }) => {
   return (
     <div class="col col-lg-4 mt-2 mb-2">
