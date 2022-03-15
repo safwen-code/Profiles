@@ -85,6 +85,22 @@ export const getProfiles = () => async (dispatch) => {
   }
 }
 
+//get profile by userID
+export const getProfileByUserID = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/profile/user/${id}`)
+    dispatch({
+      type: PROFILE_USER,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
+
 //add Experience
 export const Addexperience = () => async (dispatch) => {}
 
@@ -96,6 +112,3 @@ export const deleteExperience = () => async (dispatch) => {}
 
 //delete Profile
 export const deleteProfile = () => async (dispatch) => {}
-
-//get profile by userID
-export const getProfileByUserID = () => async (dispatch) => {}
