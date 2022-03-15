@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const ProfileItem = () => {
+const ProfileItem = ({ profile: { imageUrl } }) => {
   return (
     <div class="col col-lg-4 mt-2 mb-2">
       <div class="card car-cover h-100" style={{ width: '18rem' }}>
         <img
-          src=""
+          src={imageUrl}
           class="card-img-top rounded-circle mx-auto d-block"
           alt="..."
           style={{ height: '140 px', width: '140px' }}

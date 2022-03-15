@@ -12,6 +12,7 @@ import CreateProfile from './components/profile/CreateProfile'
 import { LoadUser } from './action/authAction'
 import setAuthToken from './util/setAuthToken'
 
+import PrivateRoute from './Routes/PrivateRoute'
 import store from './store'
 
 if (localStorage.token) {
@@ -32,12 +33,43 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           {/* private Route */}
+
           {/* userProfile  */}
-          <Route path="/profile" element={<ProfileUser />} />
+
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <ProfileUser />
+              </PrivateRoute>
+            }
+          />
+
           {/* addeducation addExperience create profile*/}
-          <Route path="/addEducation" element={<AddEducation />} />
-          <Route path="/addExperience" element={<AddExperience />} />
-          <Route path="/createProfile" element={<CreateProfile />} />
+          <Route
+            path="/addEducation"
+            element={
+              <PrivateRoute>
+                <AddEducation />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/addExperience"
+            element={
+              <PrivateRoute>
+                <AddExperience />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/createProfile"
+            element={
+              <PrivateRoute>
+                <CreateProfile />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>

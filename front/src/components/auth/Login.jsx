@@ -22,7 +22,7 @@ const Login = ({ auth: { loading, isAuth }, LoginUser }) => {
     LoginUser(email, password)
   }
   if (isAuth) {
-    navigate('/')
+    navigate('/profile')
   }
   return (
     <div className="container border border-dark mt-3">
@@ -34,7 +34,7 @@ const Login = ({ auth: { loading, isAuth }, LoginUser }) => {
           name="email"
           className="form-control"
           placeholder="your email please"
-          onChange={onchangeHundler}
+          onChange={(e) => onchangeHundler(e)}
         />
         <label for="floatingInput">Email Adress</label>
       </div>
@@ -45,7 +45,7 @@ const Login = ({ auth: { loading, isAuth }, LoginUser }) => {
           value={password}
           className="form-control"
           placeholder="your password please"
-          onChange={onchangeHundler}
+          onChange={(e) => onchangeHundler(e)}
         />
         <label for="floatingInput">password Adress</label>
       </div>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 const PrivateRoute = ({ auth: { isAuth, loading }, children }) => {
-  return loading && isAuth ? children : <Navigate to="/login" />
+  return !loading && isAuth ? children : <Navigate to="/login" />
 }
 
 const mapStateToProps = (state) => ({
