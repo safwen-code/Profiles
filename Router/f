@@ -1,0 +1,51 @@
+ console.log(req.file)
+  const {
+    company,
+    website,
+    bio,
+    status,
+    githubusername,
+    skills,
+    facebook,
+    linkedin,
+    imageUrl,
+  } = req.body
+  const profilFiled = {}
+  profilFiled.user = req.user.id
+  if (company) profilFiled.company = company
+  if (website) profilFiled.website = website
+  if (imageUrl)
+    profilFiled.imageUrl = `${req.protocol}://${req.get('host')}/images/${
+      req.file.filename
+    }`
+  console.log(profilFiled.imageUrl)
+  if (bio) profilFiled.bio = bio
+  if (status) profilFiled.status = status
+  if (githubusername) profilFiled.githubusername = githubusername
+  if (skills) {
+    profilFiled.skills = skills.split(',').map((skills) => skills.trim())
+  }
+  // build social object
+  profilFiled.social = {}
+  if (facebook) profilFiled.social.facebook = facebook
+  if (linkedin) profilFiled.social.linkedin = linkedin
+
+  try {
+    let profile = await Profile.findOne({ user: req.user.id })
+    if (profile) {
+      //update the profile
+      profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profilFiled },
+        { new: true },
+      )
+      return res.json(profile)
+    }
+    //create
+    profile = new Profile(profilFiled)
+    await profile.save()
+    res.json(profile)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('server error')
+  }

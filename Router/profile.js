@@ -3,9 +3,10 @@ const router = express.Router()
 const Profile = require('../Model/Profile')
 const User = require('../Model/User')
 const auth = require('../middelware/auth')
+const multer = require('../middelware/multer-config')
 
 //post & edite profile
-router.post('/addProfile', auth, async (req, res) => {
+router.post('/addProfile', multer, auth, async (req, res) => {
   const {
     company,
     website,
@@ -15,36 +16,40 @@ router.post('/addProfile', auth, async (req, res) => {
     skills,
     facebook,
     linkedin,
+    imageUrl,
   } = req.body
-  const profilFiled = {}
-  profilFiled.user = req.user.id
-  if (company) profilFiled.company = company
-  if (website) profilFiled.website = website
-  // if(location) profilFiled.location= location
-  if (bio) profilFiled.bio = bio
-  if (status) profilFiled.status = status
-  if (githubusername) profilFiled.githubusername = githubusername
+
+  const Field = {}
+  Field.user = req.user.id
+  Field.imageUrl = `${req.protocol}://${req.get('host')}/images/${
+    req.file.filename
+  }`
+  if (company) Field.company = company
+  if (website) Field.website = website
+
+  if (bio) Field.bio = bio
+  if (status) Field.status = status
+  if (githubusername) Field.githubusername = githubusername
   if (skills) {
-    profilFiled.skills = skills.split(',').map((skills) => skills.trim())
+    Field.skills = skills.split(',').map((skills) => skills.trim())
   }
   // build social object
-  profilFiled.social = {}
-  if (facebook) profilFiled.social.facebook = facebook
-  if (linkedin) profilFiled.social.linkedin = linkedin
-
+  Field.social = {}
+  if (facebook) Field.social.facebook = facebook
+  if (linkedin) Field.social.linkedin = linkedin
   try {
     let profile = await Profile.findOne({ user: req.user.id })
     if (profile) {
       //update the profile
       profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
-        { $set: profilFiled },
+        { $set: Field },
         { new: true },
       )
       return res.json(profile)
     }
     //create
-    profile = new Profile(profilFiled)
+    profile = new Profile(Field)
     await profile.save()
     res.json(profile)
   } catch (err) {
