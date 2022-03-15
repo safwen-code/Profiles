@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { connect } from 'react-redux'
 import ProfileItem from './ProfileItem'
 import Spinne from '../layout/Spinne'
-const ListProfile = () => {
-  const [profiles, setprofiles] = useState('')
+import { getProfiles } from '../../action/profile'
+import profile from '../../reducer/profile'
 
-  const getAllProfile = async (payload) => {
-    try {
-      const res = await axios.get('/profile/')
-      if (res.status === 200) {
-        setprofiles(res.data)
-      }
-    } catch (error) {
-      console.log('error with axios')
-    }
-  }
+const ListProfile = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
-    getAllProfile()
+    getProfiles()
   }, [])
-  console.log(profiles)
+
   return (
     <div className="border border-dark mt-5 container ">
-      {profiles.length === 0 ? <Spinne /> : <ProfileItem />}
+      <div>
+        {profiles.length > 0 ? (
+          profiles.map((profile) => (
+            <ProfileItem key={profile._id} profile={profile} />
+          ))
+        ) : (
+          <Spinne />
+        )}
+      </div>
     </div>
   )
 }
 
-export default ListProfile
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+})
+export default connect(mapStateToProps, { getProfiles })(ListProfile)
