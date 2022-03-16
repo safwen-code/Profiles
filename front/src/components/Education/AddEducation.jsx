@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Addeducation } from '../../action/profile'
 
-const AddEducation = () => {
+const AddEducation = ({ Addeducation }) => {
   const [FormData, setFormData] = useState({
     school: '',
     degree: '',
@@ -30,7 +32,7 @@ const AddEducation = () => {
   const onsubmitHundler = (e) => {
     e.preventDefault()
     console.log(FormData)
-    navigate('/listEducation')
+    Addeducation(FormData, navigate)
   }
   return (
     <div className="container border border-dark mt-3">
@@ -154,4 +156,4 @@ const AddEducation = () => {
   )
 }
 
-export default AddEducation
+export default connect(null, { Addeducation })(AddEducation)
