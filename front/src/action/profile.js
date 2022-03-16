@@ -94,6 +94,10 @@ export const getProfileByUserID = (id) => async (dispatch) => {
       payload: res.data,
     })
   } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    }
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -102,7 +106,33 @@ export const getProfileByUserID = (id) => async (dispatch) => {
 }
 
 //add Experience
-export const Addexperience = () => async (dispatch) => {}
+export const Addexperience = (FormData, navigate) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+
+    const res = await axios.put('/profile/experience', FormData, config)
+    console.log(res.data)
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    })
+    dispatch(setAlert('add Experience', 'alert-success'))
+    navigate('/profile')
+  } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
 
 //addEducation
 export const Addeducation = () => async (dispatch) => {}
