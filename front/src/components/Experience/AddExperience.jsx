@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Addexperience } from '../../action/profile'
 
-const AddExperience = () => {
+const AddExperience = ({ Addexperience }) => {
   const [FormData, setFormData] = useState({
-    title: '',
+    titel: '',
     location: '',
     company: '',
     to: '',
@@ -11,7 +13,7 @@ const AddExperience = () => {
     description: '',
     from: '',
   })
-  const { title, location, company, to, current, description, from } = FormData
+  const { titel, location, company, to, current, description, from } = FormData
 
   let navigate = useNavigate()
   const [disabelDate, setAbeldate] = useState(false)
@@ -22,7 +24,7 @@ const AddExperience = () => {
   const onsubmitHundler = (e) => {
     e.preventDefault()
     console.log(FormData)
-    navigate('/listEducation')
+    Addexperience(FormData, navigate)
   }
   return (
     <div className="container border border-dark mt-3">
@@ -36,8 +38,8 @@ const AddExperience = () => {
             <input
               type="text"
               class="form-control"
-              name="title"
-              value={title}
+              name="titel"
+              value={titel}
               onChange={onchangeHundler}
             />
           </div>
@@ -146,4 +148,4 @@ const AddExperience = () => {
   )
 }
 
-export default AddExperience
+export default connect(null, { Addexperience })(AddExperience)
