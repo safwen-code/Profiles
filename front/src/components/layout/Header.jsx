@@ -31,7 +31,16 @@ const Header = ({ auth: { loading, isAuth, user }, Logout }) => {
           profile
         </Link>
       </li>
-
+      <li class="nav-item">
+        <Link class="nav-link" to="/addEducation">
+          addEducation
+        </Link>
+      </li>
+      <li class="nav-item">
+        <Link class="nav-link" to="/addExperience">
+          addExperience
+        </Link>
+      </li>
       <li className="na-item">
         <Link className="nav-link" aria-current="page" to="/" onClick={Logout}>
           {user !== null && user.name}

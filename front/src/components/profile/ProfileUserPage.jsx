@@ -28,6 +28,9 @@ const ProfileUserPage = ({ profile }) => {
           </div>
         </div>
       </div>
+      <div className="row mb-2">
+        {/* <ListExperience experience={profile.exprience} /> */}
+      </div>
     </div>
   )
 }

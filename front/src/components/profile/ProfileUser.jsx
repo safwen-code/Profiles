@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import Education from '../Education/Education'
-import Experience from '../Experience/Experience'
+
 import { connect } from 'react-redux'
-import { LoadUser } from '../../action/authAction'
 import { getCurrentProfile } from '../../action/profile'
 import ProfileUserPage from './ProfileUserPage'
 import { Link } from 'react-router-dom'
@@ -12,19 +10,17 @@ const ProfileUser = ({ user, getCurrentProfile, profile }) => {
     getCurrentProfile()
   }, [getCurrentProfile])
 
-  const { name, email } = user
-
   return (
     <div className="container">
       <div className="p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <div className="col-md-6 px-0">
           <h1 className="display-4 fst-italic">
             Titel of Alonger featured for my profile
-            {name}
+            {user && user.name}
           </h1>
           <p className="lead my-3">
             Lorem Ipsum is simply dummy text of the printing and typesetting
-            {email}
+            {user && user.email}
           </p>
           <p className="lead mb-0">
             create a profile and partage please
@@ -36,10 +32,7 @@ const ProfileUser = ({ user, getCurrentProfile, profile }) => {
       </div>
       {profile != null && <ProfileUserPage profile={profile} />}
 
-      <div className="row mb-2">
-        <Education />
-        <Experience />
-      </div>
+      <div className="row mb-2"></div>
     </div>
   )
 }
@@ -49,6 +42,4 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 })
 
-export default connect(mapStateToProps, { LoadUser, getCurrentProfile })(
-  ProfileUser,
-)
+export default connect(mapStateToProps, { getCurrentProfile })(ProfileUser)
