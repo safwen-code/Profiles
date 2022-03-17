@@ -164,7 +164,48 @@ export const Addeducation = (FormData, navigate) => async (dispatch) => {
 }
 
 //deleteExperience
-export const deleteExperience = () => async (dispatch) => {}
+export const deleteExperience = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/profile/experience/${id}`)
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    })
+    console.log('la res de suppp experience', res)
+    dispatch(setAlert('experience is deleted successfuly', 'alert-success'))
+  } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
+
+//deleteEducation
+export const deleteEducation = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/profile/education/${id}`)
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    })
+    console.log('la res de suppp education', res)
+    dispatch(setAlert('education is deleted successfuly', 'alert-success'))
+  } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
 
 //delete Profile
 export const deleteProfile = () => async (dispatch) => {}

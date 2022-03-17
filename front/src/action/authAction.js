@@ -30,12 +30,6 @@ export const LoginUser = (email, password) => async (dispatch) => {
     //load user
     dispatch(LoadUser())
   } catch (err) {
-    const errors = err.response.data.errors
-    if (errors) {
-      errors.forEach((element) => {
-        dispatch(setAlert(element.msg, 'alert-danger'))
-      })
-    }
     // console.log(errors)
     dispatch({
       type: ERROR_LOGIN,
@@ -60,11 +54,10 @@ export const RegisterUser = ({ name, email, password }) => async (dispatch) => {
     //load user
     //clear profile
   } catch (err) {
-    const errors = err.response.data
-    console.log(errors)
-    if (errors) {
-      dispatch(setAlert(errors.msg, 'alert-danger'))
-    }
+    // const errors = err.response.data.errors
+    // if (errors) {
+    //   errors.forEach((error) => dispatch(setAlert(error.msg, 'alert-danger')))
+    // }
 
     dispatch({
       type: ERROR_REGISTER,
