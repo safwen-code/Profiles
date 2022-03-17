@@ -8,7 +8,8 @@ import { AiOutlineCheck, AiFillGithub } from 'react-icons/ai'
 
 const ProfileUserId = ({
   getProfileByUserID,
-  profile: { profile, loading },
+  profile: { profile, loading, user },
+  auth,
 }) => {
   let { id } = useParams()
 
@@ -24,6 +25,15 @@ const ProfileUserId = ({
         <Link to="/" className="btn btn-secondary mt-3">
           Go Back
         </Link>
+        {auth.isAuth &&
+          auth.loading === false &&
+          auth.user._id === profile.user._id && (
+            <Link to="/editeProfile">
+              <button className="btn btn-danger mt-3 ms-2">
+                Edite Profile
+              </button>
+            </Link>
+          )}
         <div class="row">
           <div class="col-5 tex-center offset-md-3 mb-4 mt-3">
             <div class="card">
@@ -81,5 +91,6 @@ const ProfileUserId = ({
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
 })
 export default connect(mapStateToProps, { getProfileByUserID })(ProfileUserId)

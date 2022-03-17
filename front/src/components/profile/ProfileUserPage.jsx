@@ -1,4 +1,6 @@
 import React from 'react'
+import ListExperience from '../Experience/ListExperience'
+import ListEducation from '../Education/ListEducation'
 
 const ProfileUserPage = ({ profile }) => {
   return (
@@ -29,7 +31,14 @@ const ProfileUserPage = ({ profile }) => {
         </div>
       </div>
       <div className="row mb-2">
-        {/* <ListExperience experience={profile.exprience} /> */}
+        {profile.exprience.length > 0 && (
+          <ListExperience experience={profile.exprience} />
+        )}
+      </div>
+      <div className="row mb-2">
+        {profile.education.length > 0 && (
+          <ListEducation education={profile.education} />
+        )}
       </div>
     </div>
   )
